@@ -18,6 +18,13 @@ python manage.py migrate
 ## Vue CLIを利用
 npm install -g @vue/cli
 
+## Vueプロジェクト作成
+cd nblog3
+vue create frontend
+
+## Vueプロジェクト実行
+cd frontend
+npm run serve
 
 ## 参考URL
 https://blog.narito.ninja/detail/201/
