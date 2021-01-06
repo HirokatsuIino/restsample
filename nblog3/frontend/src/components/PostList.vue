@@ -1,146 +1,213 @@
 <template>
-    <section class="container">
-        <article class="post" v-for="post of postList" :key="post.id">
-            <figure>
-                <img :src="post.thumbnail" :alt="post.title" class="thumbnail">
-            </figure>
-            <p class="post-category" :style="{'color': post.category.color}">{{post.category.name}}</p>
-            <h2 class="post-title">{{post.title}}</h2>
-            <p class="post-lead">{{post.lead_text}}</p>
-        </article>
-    </section>
+  <div>
+    <div v-for="(post, key) in Posts" :key="key">
+      <hr>
+      <p>カテゴリ: {{ post.category.name }}</p>
+      <p>タイトル: {{ post.title }}</p>
+      <p>紹介文: {{ post.lead_text }}</p>
+      <p>本文: {{ post.main_text }}</p>
+<!--      <p>投稿日: {{ post.created_at }}</p>-->
+      <hr>
+    </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'post-list',
-        data() {
-            return {
-                postList: [],
-            }
-        },
-        mounted() {
-            this.$http(this.$httpPosts)
-                .then(response => {
-                    return response.json()
-                })
-                .then(data => {
-                    this.postList = data
-                })
-        }
-    }
+export default {
+  data() {
+    return {
+      Posts: []
+    };
+  },
+  mounted() {
+    // this.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    this.axios
+      // .get('/api/posts/')
+      .get("http://127.0.0.1:8080/blog/api/posts/")
+      .then(response => (this.Posts = response.data));
+  }
+};
 </script>
 
-<style scoped>
-    #lead {
-        color: #999999;
-    }
 
-    section {
-        margin-top: 80px;
-    }
+<!--<template>-->
+<!--    <section class="container">-->
+<!--        <article class="post" v-for="post of postList" :key="post.id">-->
+<!--            <figure>-->
+<!--&lt;!&ndash;                <img :src="post.thumbnail" :alt="post.title" class="thumbnail">&ndash;&gt;-->
+<!--            </figure>-->
+<!--            <p class="post-category" :style="{'color': post.category.color}">{{post.category.name}}</p>-->
+<!--            <h2 class="post-title">{{post.title}}</h2>-->
+<!--            <p class="post-lead">{{post.lead_text}}</p>-->
+<!--        </article>-->
+<!--    </section>-->
+<!--</template>-->
 
-    .thumbnail {
-        width: 100%;
-        height: auto;
-        vertical-align: bottom;
-    }
+<!--&lt;!&ndash;<script src="https://unpkg.com/vue"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;<script src="https://unpkg.com/axios/dist/axios.min.js"></script>&ndash;&gt;-->
+<!--<script>-->
+<!--    // import {AxiosInstance as axios} from "axios";-->
 
-    .post {
-        text-decoration: none;
-        color: #000;
-        margin-bottom: 80px;
-        display: block;
-    }
+<!--    export default {-->
+<!--        name: 'post-list',-->
+<!--        data() {-->
+<!--            return {-->
+<!--                postList: [],-->
+<!--            }-->
+<!--        },-->
 
-    .post-category {
-        margin-top: 25px;
-        font-size: 12px;
-    }
+<!--        // mounted:function(){-->
+<!--        // axios.get(`/blog/api/posts/`).then(function(response){-->
+<!--        //   console.log(response);-->
+<!--        //   for(let i = 0; i < response.data.length; i++) {-->
+<!--        //     response.data[i].showContent = false;-->
+<!--        //   }-->
+<!--        //   this.releases = response.data;-->
+<!--        //   }.bind(this))-->
+<!--        //   .catch(function(error) {-->
+<!--        //     console.log(error);-->
+<!--        //   });-->
+<!--        // },-->
 
-    .post-title {
-        font-weight: bold;
-        font-size: 14px;
-        width: 100%
-    }
+<!--        mounted() {-->
+<!--            this.$http(this.$httpPosts,{-->
+<!--                header:{-->
+<!--                    'Content-Type': 'application/json',-->
+<!--                    'Accept': 'application/json',-->
+<!--                    'dataType': 'json',-->
+<!--                    'processData': false,-->
+<!--                }-->
+<!--            }, {-->
+<!--                'mode': 'no-cors'-->
+<!--            })-->
+<!--            .then(response => {-->
+<!--                console.log(response);-->
+<!--                console.log('あああ');-->
+<!--                return response.json();-->
+<!--                // this.postList = response-->
+<!--                // return response.json()-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                console.log('いいいあああ');-->
+<!--                // console.log(data);-->
+<!--                return data-->
+<!--            })-->
+<!--            .catch(error => alert(error.message));-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 
-    .post-lead {
-        margin-top: 10px;
-        width: 100%;
-    }
+<!--<style scoped>-->
+<!--    #lead {-->
+<!--        color: #999999;-->
+<!--    }-->
 
-    .divider {
-        margin-top: 50px;
-        margin-bottom: 25px;
-        width: 100%;
-        height: 1px;
-        border: none;
-        background-color: #ccc;
-    }
+<!--    section {-->
+<!--        margin-top: 80px;-->
+<!--    }-->
 
-    #page {
-        color: #999;
-    }
+<!--    .thumbnail {-->
+<!--        width: 100%;-->
+<!--        height: auto;-->
+<!--        vertical-align: bottom;-->
+<!--    }-->
 
-    #back {
-        width: 44px;
-        margin-right: 16px;
-        display: inline-block;
-    }
+<!--    .post {-->
+<!--        text-decoration: none;-->
+<!--        color: #000;-->
+<!--        margin-bottom: 80px;-->
+<!--        display: block;-->
+<!--    }-->
 
-    #next {
-        margin-left: 44px;
-        width: 44px;
-        display: inline-block;
-    }
+<!--    .post-category {-->
+<!--        margin-top: 25px;-->
+<!--        font-size: 12px;-->
+<!--    }-->
 
-    @media (min-width: 768px) {
-        section {
-            display: grid;
-            grid-template-columns: 340px 340px;
-            column-gap: 20px;
-            row-gap: 100px;
-        }
+<!--    .post-title {-->
+<!--        font-weight: bold;-->
+<!--        font-size: 14px;-->
+<!--        width: 100%-->
+<!--    }-->
 
-        .thumbnail {
-            width: 340px;
-            height: 212px;
-            object-fit: cover;
-        }
+<!--    .post-lead {-->
+<!--        margin-top: 10px;-->
+<!--        width: 100%;-->
+<!--    }-->
 
-        .post {
-            margin-bottom: 0;
-        }
+<!--    .divider {-->
+<!--        margin-top: 50px;-->
+<!--        margin-bottom: 25px;-->
+<!--        width: 100%;-->
+<!--        height: 1px;-->
+<!--        border: none;-->
+<!--        background-color: #ccc;-->
+<!--    }-->
 
-        .post-title {
-            width: 280px;
-        }
+<!--    #page {-->
+<!--        color: #999;-->
+<!--    }-->
 
-        .post-lead {
-            width: 280px;
-        }
+<!--    #back {-->
+<!--        width: 44px;-->
+<!--        margin-right: 16px;-->
+<!--        display: inline-block;-->
+<!--    }-->
 
-        .divider {
-            width: 650px;
-        }
-    }
+<!--    #next {-->
+<!--        margin-left: 44px;-->
+<!--        width: 44px;-->
+<!--        display: inline-block;-->
+<!--    }-->
 
-    @media (min-width: 1024px) {
-        section {
-            grid-template-columns: 480px 480px;
-        }
+<!--    @media (min-width: 768px) {-->
+<!--        section {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: 340px 340px;-->
+<!--            column-gap: 20px;-->
+<!--            row-gap: 100px;-->
+<!--        }-->
 
-        .thumbnail {
-            width: 480px;
-            height: 300px;
-        }
+<!--        .thumbnail {-->
+<!--            width: 340px;-->
+<!--            height: 212px;-->
+<!--            object-fit: cover;-->
+<!--        }-->
 
-        .post-title {
-            width: 440px;
-        }
+<!--        .post {-->
+<!--            margin-bottom: 0;-->
+<!--        }-->
 
-        .post-lead {
-            width: 440px;
-        }
-    }
-</style>
+<!--        .post-title {-->
+<!--            width: 280px;-->
+<!--        }-->
+
+<!--        .post-lead {-->
+<!--            width: 280px;-->
+<!--        }-->
+
+<!--        .divider {-->
+<!--            width: 650px;-->
+<!--        }-->
+<!--    }-->
+
+<!--    @media (min-width: 1024px) {-->
+<!--        section {-->
+<!--            grid-template-columns: 480px 480px;-->
+<!--        }-->
+
+<!--        .thumbnail {-->
+<!--            width: 480px;-->
+<!--            height: 300px;-->
+<!--        }-->
+
+<!--        .post-title {-->
+<!--            width: 440px;-->
+<!--        }-->
+
+<!--        .post-lead {-->
+<!--            width: 440px;-->
+<!--        }-->
+<!--    }-->
+<!--</style>-->
