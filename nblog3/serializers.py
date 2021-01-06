@@ -14,7 +14,8 @@ class SimplePostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        exclude = ('main_text', 'created_at')
+        fields = '__all__'
+        # exclude = ('created_at')
 
 
 class PostSerializer(serializers.ModelSerializer):
