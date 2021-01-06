@@ -17,6 +17,7 @@ python manage.py migrate
 
 ## Vue CLIを利用
 npm install -g @vue/cli
+npm install --save axios
 
 ## Vueプロジェクト作成
 cd nblog3
